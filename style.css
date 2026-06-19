@@ -1,0 +1,143 @@
+:root {
+  --bg-0: #020202;
+  --bg-1: #090909;
+  --text-main: #f4e8cc;
+  --text-sub: #b4ab97;
+  --panel: rgba(14, 14, 14, 0.52);
+  --panel-border: rgba(247, 227, 170, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: radial-gradient(circle at 30% 0%, var(--bg-1), var(--bg-0) 58%);
+  color: var(--text-main);
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+}
+
+#app {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+#scene {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#app::before {
+  content: "";
+  position: absolute;
+  inset: -20% -15%;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 75% 20%, rgba(255, 207, 134, 0.1), transparent 35%),
+    radial-gradient(circle at 20% 80%, rgba(228, 203, 146, 0.08), transparent 42%);
+  animation: drift 16s ease-in-out infinite alternate;
+}
+
+.hud {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 999px;
+  padding: 0.7rem 1.25rem;
+  backdrop-filter: blur(10px);
+  /* Hidden until intro finishes */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.4s ease;
+}
+
+.hud--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hud h1 {
+  margin: 0;
+  font-size: clamp(1.25rem, 1.2rem + 1vw, 2rem);
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.hud p {
+  margin: 0.12rem 0 0;
+  color: var(--text-sub);
+  font-size: clamp(0.72rem, 0.7rem + 0.25vw, 0.9rem);
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 720px) {
+  .hud {
+    width: calc(100vw - 28px);
+    border-radius: 16px;
+    top: 14px;
+  }
+
+  .hud h1 {
+    letter-spacing: 0.05em;
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: translate3d(-10px, 0, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(10px, 14px, 0) scale(1.03);
+  }
+}
+
+@keyframes float-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* ── Intro overlay ──────────────────────────────────────────────── */
+#intro-overlay {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  pointer-events: none;
+  /* Fade in slightly delayed so first frame is pure black */
+  animation: overlay-fadein 1.2s ease forwards;
+  opacity: 1;
+  transition: opacity 1.6s ease;
+  z-index: 10;
+}
+
+#intro-overlay.intro-overlay--hidden {
+  opacity: 0;
+}
+
+@keyframes overlay-fadein {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.0;
+  }
+}
